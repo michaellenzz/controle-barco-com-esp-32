@@ -1,16 +1,8 @@
 # barco_esther
 
-A new Flutter project.
+Projeto em flutter 
 
-## Getting Started
+Um joystick para controlar um esp32 em um barco de isopor.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="https://user-images.githubusercontent.com/51023093/228542404-88150d75-2ca8-462f-b704-aa0a15c4a990.png" width="400" />
