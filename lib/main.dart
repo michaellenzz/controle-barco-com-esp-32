@@ -35,7 +35,6 @@ class _ControleState extends State<Controle> {
   String direcao = 'Reto';
   String enderecoIP = '192.168.4.1';
 
-
   @override
   Widget build(BuildContext context) {
     // ignore: avoid_print
@@ -62,7 +61,6 @@ class _ControleState extends State<Controle> {
                       enviarComandosEsp32('27/off');
                       direcao = 'Reto';
                     }
-                    //value ? direcao = 'Direita' : direcao = 'Reto';
                   });
                 },
                 child: SizedBox(
@@ -81,7 +79,7 @@ class _ControleState extends State<Controle> {
                   const Padding(
                     padding: EdgeInsets.only(top: 40),
                     child: Text(
-                      'Barco da Esther',
+                      'Barco da Esther Lenz',
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
@@ -155,7 +153,6 @@ class _ControleState extends State<Controle> {
                       enviarComandosEsp32('26/off');
                       direcao = 'Reto';
                     }
-                    //value ? direcao = 'Direita' : direcao = 'Reto';
                   });
                 },
                 child: SizedBox(
@@ -176,19 +173,24 @@ class _ControleState extends State<Controle> {
   }
 
   Future playSound(asset) async {
-    Soundpool pool = Soundpool.fromOptions(
-        options: const SoundpoolOptions(streamType: StreamType.notification));
-    int soundId = await rootBundle.load(asset).then((ByteData soundData) {
-      return pool.load(soundData);
-    });
-    await pool.play(soundId);
-    //pool.dispose();
+    try {
+      Soundpool pool = Soundpool.fromOptions(
+          options: const SoundpoolOptions(
+              streamType: StreamType.music, maxStreams: 1));
+      int soundId = await rootBundle.load(asset).then((ByteData soundData) {
+        return pool.load(soundData);
+      });
+      await pool.play(soundId);
+    } catch (e) {
+      // ignore: avoid_print
+      print(e);
+    }
   }
 
-  Future enviarComandosEsp32(comando) async {
+  Future enviarComandosEsp32(endPoint) async {
     try {
-      var url = Uri.http(enderecoIP, comando);
-      await http.post(url);
+      var url = Uri.http(enderecoIP, '/$endPoint');
+      await http.get(url);
     } catch (e) {
       // ignore: avoid_print
       print(e);
