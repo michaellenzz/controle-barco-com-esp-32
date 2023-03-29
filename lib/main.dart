@@ -75,38 +75,66 @@ class _ControleState extends State<Controle> {
                     )),
               ),
               Column(
-                mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(
-                    width: width * 0.1,
-                    height: width * 0.1,
-                    child: IconButton(
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onPressed: () {
-                          setState(() {
-                            andando ? andando = false : andando = true;
-                          });
-                        },
-                        icon: Icon(
-                          andando
-                              ? Icons.stop_rounded
-                              : Icons.play_arrow_rounded,
-                          color: andando ? Colors.red : Colors.pink,
-                          size: width * 0.10,
-                        )),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 40),
+                    child: Text(
+                      'Barco da Esther',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.pink),
+                    ),
                   ),
-                  const SizedBox(height: 3),
-                  Text(
-                    andando
-                        ? '      Desligar os motores'
-                        : '      Ligar os motores',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: andando ? Colors.red : Colors.pink),
-                  )
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          width: width * 0.1,
+                          height: width * 0.1,
+                          child: IconButton(
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onPressed: () {
+                                setState(() {
+                                  if (andando) {
+                                    enviarComandosEsp32('25/off');
+                                    andando = false;
+                                    // ignore: avoid_print
+                                    print('Parado');
+                                  } else {
+                                    enviarComandosEsp32('25/on');
+                                    direcao = 'Reto';
+                                    andando = true;
+                                    // ignore: avoid_print
+                                    print('Andando');
+                                  }
+                                });
+                              },
+                              icon: Icon(
+                                andando
+                                    ? Icons.stop_rounded
+                                    : Icons.play_arrow_rounded,
+                                color: andando ? Colors.red : Colors.pink,
+                                size: width * 0.10,
+                              )),
+                        ),
+                        const SizedBox(height: 3),
+                        Text(
+                          andando
+                              ? '      Desligar os motores'
+                              : '      Ligar os motores',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: andando ? Colors.red : Colors.pink),
+                        )
+                      ],
+                    ),
+                  ),
                 ],
               ),
               InkWell(
