@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:soundpool/soundpool.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,6 +34,7 @@ class _ControleState extends State<Controle> {
   bool andando = false;
   String direcao = 'Reto';
   String enderecoIP = '192.168.4.1';
+
 
   @override
   Widget build(BuildContext context) {
@@ -99,15 +101,18 @@ class _ControleState extends State<Controle> {
                               highlightColor: Colors.transparent,
                               onPressed: () {
                                 setState(() {
+                                  //ligar os motores
                                   if (andando) {
                                     enviarComandosEsp32('25/off');
                                     andando = false;
+                                    playSound('assets/motores-desligados.mp3');
                                     // ignore: avoid_print
                                     print('Parado');
                                   } else {
                                     enviarComandosEsp32('25/on');
                                     direcao = 'Reto';
                                     andando = true;
+                                    playSound('assets/ligando-motores.mp3');
                                     // ignore: avoid_print
                                     print('Andando');
                                   }
@@ -128,7 +133,7 @@ class _ControleState extends State<Controle> {
                               : '      Ligar os motores',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 18,
                               fontWeight: FontWeight.w500,
                               color: andando ? Colors.red : Colors.pink),
                         )
@@ -168,6 +173,16 @@ class _ControleState extends State<Controle> {
         ),
       ),
     );
+  }
+
+  Future playSound(asset) async {
+    Soundpool pool = Soundpool.fromOptions(
+        options: const SoundpoolOptions(streamType: StreamType.notification));
+    int soundId = await rootBundle.load(asset).then((ByteData soundData) {
+      return pool.load(soundData);
+    });
+    await pool.play(soundId);
+    //pool.dispose();
   }
 
   Future enviarComandosEsp32(comando) async {
