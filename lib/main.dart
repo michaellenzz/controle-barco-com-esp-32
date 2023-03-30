@@ -37,8 +37,6 @@ class _ControleState extends State<Controle> {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: avoid_print
-    print(direcao);
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
@@ -55,10 +53,10 @@ class _ControleState extends State<Controle> {
                 onHighlightChanged: (value) {
                   setState(() {
                     if (value) {
-                      enviarComandosEsp32('27/on');
+                      enviarComandosEsp32('reto');
                       direcao = 'Esquerda';
                     } else {
-                      enviarComandosEsp32('27/off');
+                      enviarComandosEsp32('esquerda');
                       direcao = 'Reto';
                     }
                   });
@@ -101,18 +99,14 @@ class _ControleState extends State<Controle> {
                                 setState(() {
                                   //ligar os motores
                                   if (andando) {
-                                    enviarComandosEsp32('25/off');
+                                    enviarComandosEsp32('motor/off');
                                     andando = false;
                                     playSound('assets/motores-desligados.mp3');
-                                    // ignore: avoid_print
-                                    print('Parado');
                                   } else {
-                                    enviarComandosEsp32('25/on');
+                                    enviarComandosEsp32('motor/on');
                                     direcao = 'Reto';
                                     andando = true;
                                     playSound('assets/ligando-motores.mp3');
-                                    // ignore: avoid_print
-                                    print('Andando');
                                   }
                                 });
                               },
@@ -120,7 +114,8 @@ class _ControleState extends State<Controle> {
                                 andando
                                     ? Icons.stop_rounded
                                     : Icons.play_arrow_rounded,
-                                color: andando ? Colors.red : Colors.pink,
+                                color:
+                                    andando ? Colors.orange[700] : Colors.pink,
                                 size: width * 0.10,
                               )),
                         ),
@@ -133,7 +128,8 @@ class _ControleState extends State<Controle> {
                           style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w500,
-                              color: andando ? Colors.red : Colors.pink),
+                              color:
+                                  andando ? Colors.orange[700] : Colors.pink),
                         )
                       ],
                     ),
@@ -147,10 +143,10 @@ class _ControleState extends State<Controle> {
                 onHighlightChanged: (value) {
                   setState(() {
                     if (value) {
-                      enviarComandosEsp32('26/on');
+                      enviarComandosEsp32('reto');
                       direcao = 'Direita';
                     } else {
-                      enviarComandosEsp32('26/off');
+                      enviarComandosEsp32('direita');
                       direcao = 'Reto';
                     }
                   });
@@ -188,6 +184,7 @@ class _ControleState extends State<Controle> {
   }
 
   Future enviarComandosEsp32(endPoint) async {
+    print(endPoint);
     try {
       var url = Uri.http(enderecoIP, '/$endPoint');
       await http.get(url);
