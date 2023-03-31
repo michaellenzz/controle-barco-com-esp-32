@@ -53,10 +53,10 @@ class _ControleState extends State<Controle> {
                 onHighlightChanged: (value) {
                   setState(() {
                     if (value) {
-                      enviarComandosEsp32('reto');
+                      enviarComandosEsp32('esquerda');
                       direcao = 'Esquerda';
                     } else {
-                      enviarComandosEsp32('esquerda');
+                      enviarComandosEsp32('reto');
                       direcao = 'Reto';
                     }
                   });
@@ -143,10 +143,10 @@ class _ControleState extends State<Controle> {
                 onHighlightChanged: (value) {
                   setState(() {
                     if (value) {
-                      enviarComandosEsp32('reto');
+                      enviarComandosEsp32('direita');
                       direcao = 'Direita';
                     } else {
-                      enviarComandosEsp32('direita');
+                      enviarComandosEsp32('reto');
                       direcao = 'Reto';
                     }
                   });
